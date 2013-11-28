@@ -69,7 +69,7 @@ def main(argv):
          print currency.upper() + " " + YELLOW + ("+(%.5f)" % diff) + GREEN + " " + str(value) + NOCOLOR
 
       oldValue = value
-      time.sleep(interval)
+      time.sleep(5) # temporary to prevent block without API
 
 if __name__ == "__main__":
    main(sys.argv[1:])
