@@ -6,7 +6,6 @@ Live colored conosole of the BTC-e currency exchange feed.
 ![btc-e-TickerWatch](http://i.imgur.com/IbpzJEK.jpg "btc-e-TickerWatch")
 
 ***More updates to come...***
-*David Albertson*
 
 ##Execution
 1) Launch the python script `tw.py` 
