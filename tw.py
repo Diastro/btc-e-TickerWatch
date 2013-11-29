@@ -1,6 +1,6 @@
 import sys, getopt
 import json
-import urllib2
+import urllib2, urllib
 import time
 
 # color def
@@ -11,22 +11,29 @@ RED = '\033[91m'
 YELLOW = '\033[93m'
 NOCOLOR = '\033[0m'
 
+# thanks to @t0pep0 (github) for this method
+def __nonce():
+   time.sleep(1)
+   nonce = str(time.time()).split('.')[0]
+
 def main(argv):
-   oldValue = -1
+   key = ""
+   sign = ""
+
+   prevValue = -1
    currency = ""
-   interval = 1
 
    # temporary not sure why getopt isnt detecting missing required args
-   if len(argv) is 0:
+   if len(argv) < 3:
       print 'Missing required arguments'
       print 'for help : python tw.py -h'
-      sys.exit(2)
+      sys.exit(0)
 
    try:
-      opts, args = getopt.getopt(argv,"hc:i",["currency=", "interval="])
+      opts, args = getopt.getopt(argv,"hk:s:c:",["key=", "sign=", "currency="])
    except getopt.GetoptError:
       print 'Invalid arguments'
-      sys.exit(2)
+      sys.exit(0)
    for opt, arg in opts:
       if opt == '-h':
          print 'python tw.py -c ltc_btc'
@@ -35,18 +42,27 @@ def main(argv):
       elif opt in ("-c", "currency="):
          currency = arg.lower()
          # add error handling here
-      elif opt in ("-i", "interval="):
-         interval = arg
-         # add error handling here
+      elif opt in ("-k", "key="):
+         key = arg
+      elif opt in ("-s", "sign="):
+         sign = arg
+      else:
+         print 'Invalid arguments'
+         sys.exit(0)
 
-   # to add:
-   # - different feed
+   # request init
    url = "https://btc-e.com/api/2/" + currency + "/ticker"
+   headers = {"Content-type" : "application/x-www-form-urlencoded",
+                   "Key" : key,
+                  "Sign" : sign }
 
    while True:
-      # make the request
+      # the equest
       try:
-         req = urllib2.Request(url)
+         nonce = __nonce()
+         params = {"nonce" : str(nonce)}
+         params = urllib.urlencode(params)
+         req = urllib2.Request(url, params, headers)
          f = urllib2.urlopen(req)
          response = f.read()
          f.close()
@@ -57,19 +73,20 @@ def main(argv):
       # json formatting
       rep = json.loads(response)
 
+      # updating values
       value = rep['ticker']['last']
-      diff = float(oldValue) - float(value)
+      diff = float(prevValue) - float(value)
       diff = abs(diff)
 
-      if value < oldValue:
+      # console printing
+      if value < prevValue:
          print currency.upper() + " " + YELLOW + ("-(%.5f)" % diff) + RED + " " + str(value) + NOCOLOR
-      elif value == oldValue:
+      elif value == prevValue:
          continue
       else:
          print currency.upper() + " " + YELLOW + ("+(%.5f)" % diff) + GREEN + " " + str(value) + NOCOLOR
 
-      oldValue = value
-      time.sleep(5) # temporary to prevent block without API
+      prevValue = value
 
 if __name__ == "__main__":
    main(sys.argv[1:])
