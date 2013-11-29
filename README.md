@@ -11,7 +11,7 @@ Live colored console of the BTC-e currency exchange feed.
 1) Get your btc-e api key [HERE](https://btc-e.com/profile#api_keys)
 
 2) Launch the python script `tw.py` 
-  * do no forget to specify the currency to watch with the -c option flag (ie: ltc_btc)
+  * replace `__key__` `__sign__` with your own key/sign
 
 ~~~ sh
 python tw.py -c ltc_btc -k __key__ -s __sign__
