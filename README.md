@@ -12,7 +12,7 @@ Live colored console of the BTC-e currency exchange feed.
   * do no forget to specify the currency to watch with the -c option flag (ie: ltc_btc)
 
 ~~~ sh
-python tw.py -c ltc_btc
+python tw.py -c ltc_btc -k __key__ -s __sign__
 ~~~
 
 1) For a list of the supported feeds
