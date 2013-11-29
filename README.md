@@ -1,7 +1,7 @@
 btc-e-TickerWatch
 ====
 
-Live colored conosole of the BTC-e currency exchange feed.
+Live colored console of the BTC-e currency exchange feed.
 
 ![btc-e-TickerWatch](http://i.imgur.com/IbpzJEK.jpg "btc-e-TickerWatch")
 
@@ -12,12 +12,12 @@ Live colored conosole of the BTC-e currency exchange feed.
   * do no forget to specify the currency to watch with the -c option flag (ie: ltc_btc)
 
 ~~~ sh
-pyhton tw.py -c ltc_btc
+python tw.py -c ltc_btc
 ~~~
 
 1) For a list of the supported feeds
 ~~~ sh
-pyhton tw.py -h
+python tw.py -h
 ~~~
 
 ##References
