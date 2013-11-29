@@ -24,7 +24,8 @@ def main(argv):
    currency = ""
 
    # temporary not sure why getopt isnt detecting missing required args
-   if len(argv) < 3:
+   # Needs refactoring
+   if len(argv) < 1:
       print 'Missing required arguments'
       print 'for help : python tw.py -h'
       sys.exit(0)
@@ -36,7 +37,7 @@ def main(argv):
       sys.exit(0)
    for opt, arg in opts:
       if opt == '-h':
-         print 'python tw.py -c ltc_btc'
+         print 'python tw.py -c ltc_btc -k _YourKey__ -s __YourSign__'
          print '  available feed : btc_usd, btc_rur, btc_eur, ltc_usd, lect_rur, ltc_eur, ltc_btc, nmc_btc, nmc_usd, nvm_btc, nvc_usd, usd_rur, eur_usd, trc_btc, ppc_btc, xpm_btc '
          sys.exit()
       elif opt in ("-c", "currency="):
@@ -49,6 +50,11 @@ def main(argv):
       else:
          print 'Invalid arguments'
          sys.exit(0)
+
+   # quick fix for missing args
+   if key == "" or sign == "":
+	print 'Missing key/Sign'
+	sys.exit(0)
 
    # request init
    url = "https://btc-e.com/api/2/" + currency + "/ticker"
